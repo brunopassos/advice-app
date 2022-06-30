@@ -21,13 +21,14 @@ export const Card = styled.section`
     justify-content: space-between;
     margin-top: 20px;
 
-    height: 300px;
+    min-height: 270px;
   }
 
   h3 {
     color: var(--text-secondary-color);
     letter-spacing: 6px;
     font-size: 12px;
+    padding-top: 20px;
   }
 
   p {
@@ -39,6 +40,7 @@ export const Card = styled.section`
 
   img {
     width: 320px;
+    padding-bottom: 10px;
   }
 
   button {
@@ -60,6 +62,7 @@ export const Card = styled.section`
     img {
       width: 30px;
       height: 30px;
+      padding-bottom: 0;
     }
   }
 `;
