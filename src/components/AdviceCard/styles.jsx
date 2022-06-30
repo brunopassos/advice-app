@@ -47,7 +47,7 @@ export const Card = styled.section`
     position: relative;
     bottom: -28px;
     height: 70px;
-    width: 55px;
+    width: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
