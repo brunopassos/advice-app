@@ -1,11 +1,27 @@
 import patternDivicerMobile from "../../assets/pattern-divider-mobile.svg";
 import iconDice from "../../assets/icon-dice.svg";
 
-import { Card } from "./styles";
+import { AiOutlineMenu } from "react-icons/ai";
+
+import { Card, Button } from "./styles";
 
 import { useState, useEffect } from "react";
 
 import api from "../../services/api";
+
+import { useDisclosure } from "@chakra-ui/react";
+
+import { useRef } from "react";
+
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+} from '@chakra-ui/react'
 
 function AdviceCard() {
   const [randonAdvice, setRandonAdvice] = useState([]);
@@ -13,21 +29,44 @@ function AdviceCard() {
 
   const handleClick = () => {
     setIsLoading(true);
-    api.get().then((resp) => setRandonAdvice(resp.data)).then((_) => setIsLoading(false));
+    api
+      .get()
+      .then((resp) => setRandonAdvice(resp.data))
+      .then((_) => setIsLoading(false));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsLoading(true);
-    api.get().then((resp) => setRandonAdvice(resp.data)).then((_) => setIsLoading(false));
-  },[])
+    api
+      .get()
+      .then((resp) => setRandonAdvice(resp.data))
+      .then((_) => setIsLoading(false));
+  }, []);
+
+  
+  const [size, setSize] = useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef();
+
+  const handleClickOpen = (newSize) => {
+    setSize(newSize)
+    onOpen()
+  }
 
   return (
     <>
+      <Button onClick={() => handleClickOpen(size)}>
+        <AiOutlineMenu />
+      </Button>
       <Card>
         <div>
           <h3>ADVICE #{randonAdvice?.slip?.id}</h3>
           <p>
-            {isLoading ? <p>Loading...</p> : ` "${randonAdvice?.slip?.advice}" `}
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              ` "${randonAdvice?.slip?.advice}" `
+            )}
           </p>
           <img
             src={patternDivicerMobile}
@@ -38,6 +77,28 @@ function AdviceCard() {
           <img src={iconDice} alt="button icon" />
         </button>
       </Card>
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size={size}
+      >
+        <DrawerOverlay  />
+        <DrawerContent >
+          <DrawerCloseButton />
+          <DrawerBody>
+            <input placeholder='Find an advice by number 001 - 224' />
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button color={"var(--secondary-color)"} variant='outline' mr={3} onClick={onClose}>
+              Search
+            </Button>
+            
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
