@@ -9,13 +9,16 @@ import api from "../../services/api";
 
 function AdviceCard() {
   const [randonAdvice, setRandonAdvice] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
-    api.get().then((resp) => setRandonAdvice(resp.data));
+    setIsLoading(true);
+    api.get().then((resp) => setRandonAdvice(resp.data)).then((_) => setIsLoading(false));
   };
 
   useEffect(()=>{
-    api.get().then((resp) => setRandonAdvice(resp.data));
+    setIsLoading(true);
+    api.get().then((resp) => setRandonAdvice(resp.data)).then((_) => setIsLoading(false));
   },[])
 
   return (
@@ -24,7 +27,7 @@ function AdviceCard() {
         <div>
           <h3>ADVICE #{randonAdvice?.slip?.id}</h3>
           <p>
-            {` "${randonAdvice?.slip?.advice}" `}
+            {isLoading ? <p>Loading...</p> : ` "${randonAdvice?.slip?.advice}" `}
           </p>
           <img
             src={patternDivicerMobile}
