@@ -44,18 +44,15 @@ function AdviceCard() {
   }, []);
 
   
-  const [size, setSize] = useState('')
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef();
 
-  const handleClickOpen = (newSize) => {
-    setSize(newSize)
-    onOpen()
-  }
+  
 
   return (
     <>
-      <Button onClick={() => handleClickOpen(size)}>
+      <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
         <AiOutlineMenu />
       </Button>
       <Card>
@@ -82,9 +79,9 @@ function AdviceCard() {
         placement='right'
         onClose={onClose}
         finalFocusRef={btnRef}
-        size={size}
+        size={"xs"}
       >
-        <DrawerOverlay  />
+        <DrawerOverlay/>
         <DrawerContent >
           <DrawerCloseButton />
           <DrawerBody>
